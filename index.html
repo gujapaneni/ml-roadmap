@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Complete Machine Learning Roadmap</title>
+  <title>ML Roadmap with Progress</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,22 +23,28 @@
       max-width: 800px;
       margin: auto;
     }
-    h2 {
-      color: #1f2937;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
+    details {
       background: white;
-      padding: 1rem;
-      margin: 0.5rem 0;
+      margin-bottom: 1rem;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 1rem;
     }
-    .section {
-      margin-bottom: 2rem;
+    summary {
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: #1f2937;
+    }
+    label {
+      display: block;
+      margin: 0.5rem 0;
+      cursor: pointer;
+    }
+    progress {
+      width: 100%;
+      height: 20px;
+      margin-bottom: 1rem;
     }
     footer {
       text-align: center;
@@ -55,67 +61,84 @@
 </header>
 
 <main>
-  <section class="section">
-    <h2>1. Prerequisites</h2>
-    <ul>
-      <li>Python Programming</li>
-      <li>Linear Algebra & Calculus</li>
-      <li>Probability & Statistics</li>
-      <li>Data Structures & Algorithms</li>
-    </ul>
-  </section>
+  <progress id="progressBar" value="0" max="100"></progress>
+  <p id="progressText">0% Complete</p>
 
-  <section class="section">
-    <h2>2. Data Handling</h2>
-    <ul>
-      <li>Numpy & Pandas</li>
-      <li>Data Cleaning</li>
-      <li>Data Visualization (Matplotlib, Seaborn)</li>
-    </ul>
-  </section>
+  <details open>
+    <summary>1. Prerequisites</summary>
+    <label><input type="checkbox" /> <a href="python.html">Python Programming</a></label>
+    <label><input type="checkbox" /> Linear Algebra & Calculus</label>
+    <label><input type="checkbox" /> Probability & Statistics</label>
+    <label><input type="checkbox" /> Data Structures & Algorithms</label>
+  </details>
 
-  <section class="section">
-    <h2>3. Core Machine Learning</h2>
-    <ul>
-      <li>Supervised Learning</li>
-      <li>Unsupervised Learning</li>
-      <li>Model Evaluation & Tuning</li>
-      <li>Scikit-learn Basics</li>
-    </ul>
-  </section>
+  <details>
+    <summary>2. Data Handling</summary>
+    <label><input type="checkbox" /> Numpy & Pandas</label>
+    <label><input type="checkbox" /> Data Cleaning</label>
+    <label><input type="checkbox" /> Data Visualization (Matplotlib, Seaborn)</label>
+  </details>
 
-  <section class="section">
-    <h2>4. Deep Learning</h2>
-    <ul>
-      <li>Neural Networks</li>
-      <li>TensorFlow / PyTorch</li>
-      <li>Convolutional Neural Networks (CNNs)</li>
-      <li>Recurrent Neural Networks (RNNs)</li>
-    </ul>
-  </section>
+  <details>
+    <summary>3. Core Machine Learning</summary>
+    <label><input type="checkbox" /> Supervised Learning</label>
+    <label><input type="checkbox" /> Unsupervised Learning</label>
+    <label><input type="checkbox" /> Model Evaluation & Tuning</label>
+    <label><input type="checkbox" /> Scikit-learn Basics</label>
+  </details>
 
-  <section class="section">
-    <h2>5. Specializations</h2>
-    <ul>
-      <li>Natural Language Processing (NLP)</li>
-      <li>Computer Vision</li>
-      <li>Reinforcement Learning</li>
-    </ul>
-  </section>
+  <details>
+    <summary>4. Deep Learning</summary>
+    <label><input type="checkbox" /> Neural Networks</label>
+    <label><input type="checkbox" /> TensorFlow / PyTorch</label>
+    <label><input type="checkbox" /> Convolutional Neural Networks (CNNs)</label>
+    <label><input type="checkbox" /> Recurrent Neural Networks (RNNs)</label>
+  </details>
 
-  <section class="section">
-    <h2>6. Tools & Deployment</h2>
-    <ul>
-      <li>Git & GitHub</li>
-      <li>ML Ops Basics</li>
-      <li>Model Deployment (Flask, FastAPI, Streamlit)</li>
-    </ul>
-  </section>
+  <details>
+    <summary>5. Specializations</summary>
+    <label><input type="checkbox" /> Natural Language Processing (NLP)</label>
+    <label><input type="checkbox" /> Computer Vision</label>
+    <label><input type="checkbox" /> Reinforcement Learning</label>
+  </details>
+
+  <details>
+    <summary>6. Tools & Deployment</summary>
+    <label><input type="checkbox" /> Git & GitHub</label>
+    <label><input type="checkbox" /> ML Ops Basics</label>
+    <label><input type="checkbox" /> Model Deployment (Flask, FastAPI, Streamlit)</label>
+  </details>
 </main>
 
 <footer>
   <p>Created with 💡 by [Your Name]</p>
 </footer>
+
+<script>
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+
+  // Load saved state
+  checkboxes.forEach((cb, i) => {
+    const saved = localStorage.getItem('ml_checkbox_' + i);
+    if (saved === 'true') cb.checked = true;
+  });
+
+  function updateProgress() {
+    let checked = 0;
+    checkboxes.forEach((cb, i) => {
+      if (cb.checked) checked++;
+      localStorage.setItem('ml_checkbox_' + i, cb.checked);
+    });
+    const percent = Math.round((checked / checkboxes.length) * 100);
+    progressBar.value = percent;
+    progressText.textContent = `${percent}% Complete`;
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener('change', updateProgress));
+  updateProgress();
+</script>
 
 </body>
 </html>
